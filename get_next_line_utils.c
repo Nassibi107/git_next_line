@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/17 11:12:26 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/17 12:07:38 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	*go_to_heap(size_t count, size_t n)
 	str = malloc(lenght);
 	if (!str)
 		return (0);
+	i  = 0;
 	while (i < lenght)
 	{
 		((char *)str)[i] = 0;

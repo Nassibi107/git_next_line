@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/17 11:45:45 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/17 12:11:54 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,34 @@ static char	*at_line(char *str)
 	line[--i] = 0;
 	return (line);
 }
+// static char *next(char *str)
+// {
+// 	char	*next;
+// 	int	i;
+// 	int	n;
 
+// 	i = 0;
+// 	n = 0;
+// 	if (str[i] && str[i + 1] != '\n')
+// 		return (free(str), NULL);
+// 	while (str[i] && str[i + 1] != '\n')
+// 		i++;
+// 	if (str[i])
+// 		i++;
+// 	next = malloc(sizeof(char) * ft_strlen(str + i) + 1);
+// 	if (!next)
+// 	return(free(str), NULL);
+// 	n = 0;
+// 	while (str[i])
+// 		next[n++] = str[i++];
+// 	next[n] = '\0';
+// 	free(str);
+// 	return (next);
+// }
 
 int main ()
 {
-	char *str = "yassine\nnassibi";
+ static char *str = "yassine\nnassibi";
 	printf("\n>> %s",at_line(str));
+	// printf("\n>> %s",next(str));
 }
