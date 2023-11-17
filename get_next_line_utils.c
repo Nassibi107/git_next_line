@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/17 10:13:03 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/17 11:12:26 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	*go_to_heap(size_t count, size_t n)
 	}
 	return(str);
 }
-char  *dup(const char *src)
+char  *ft_dup(const char *src)
 {
 	char	*tmp;
 	size_t	i;
@@ -75,7 +75,7 @@ char	*ft_strchr(const char *s, int c)
 	return (0);
 }
 
-char*	jion(char *s1, char *s2)
+char	*jion(char *s1, char *s2)
 {
 	char	*str;
 	size_t	len_s1;
