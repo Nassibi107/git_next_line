@@ -2,9 +2,10 @@
 
 
 # Memrory layout
-when your code convert to machine languge your 'OS' takes snapchot for it and puts it in CODE SEGMENT
+
 1 ) Text or code Segment
 
+>> when your code convert to machine languge your 'OS' takes snapchot for it and puts it in CODE SEGMENT
 >> Text segment contians machine code of the compiled program.
 >> the text segment is sharable so taht only a single copy (snapchot) needs to be in memory for frequently executed prgrams,
 such as text editors. (note pad etx...).
