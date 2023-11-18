@@ -3,7 +3,7 @@
 
 # Memrory layout
 
-1 ) Text or code Segment
+ 1) Text or code Segment
 
 >> when your code convert to machine languge your 'OS' takes snapchot for it and puts it in CODE SEGMENT
 >> Text segment contians machine code of the compiled program.
