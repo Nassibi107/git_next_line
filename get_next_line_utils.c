@@ -6,100 +6,112 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/17 12:07:38 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/20 14:00:41 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	i;
-	size_t	cp;
+#include <stdlib.h>
 
-	i = -1;
-	cp = 0;
-	while (str[++i])
-		cp += 1;
-	return(cp);
-}
-void	*go_to_heap(size_t count, size_t n)
+int	get_line(g_list *list)
 {
-	size_t	lenght;
-	size_t	i;
-	void		*str;
+	int	ok;
 
-	lenght = (count * n);
-	if (n != 0 && count != lenght / n)
-		return (NULL);
-	str = malloc(lenght);
-	if (!str)
+	if (!list)
 		return (0);
-	i  = 0;
-	while (i < lenght)
+	while (list)
 	{
-		((char *)str)[i] = 0;
-		i++;
+		ok = 0;
+		while (list->buf_node[ok] && ok < BUFFER_SIZE)
+		{
+			if (list->buf_node[ok] == '\n')
+				return (1);
+			ok++;
+		}
+		list = list->next;
 	}
-	return(str);
-}
-char  *ft_dup(const char *src)
-{
-	char	*tmp;
-	size_t	i;
-
-	i = 0;
-	tmp = malloc ((sizeof(char) * (ft_strlen(src) + 1)));
-	if (!tmp)
-		return (NULL);
-	while (src[i])
-	{
-		tmp[i] = src[i];
-		i++;
-	}
-	tmp[i] = '\0';
-	return (tmp);
-}
-char	*ft_strchr(const char *s, int c)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		if (s[i] == (char)c)
-			return ((char *) &s[i]);
-		i++;
-	}
-	if (!(char)c)
-		return ((char *) &s[i]);
 	return (0);
 }
 
-char	*jion(char *s1, char *s2)
+void	join(g_list *list, char *str)
 {
-	char	*str;
-	size_t	len_s1;
-	size_t	len_s2;
-	size_t	i;
+	int	i;
+	int	j;
 
-	if (s1 && !s2)
-		return ((char *)s1);
-	else if (!s1 && s2)
-		return ((char *)s2);
-	else if (!s1 && !s2)
+	if (!list)
+		return ;
+	j = 0;
+	while (list)
+	{
+		i = 0;
+		while (list->buf_node[i] != '\0')
+		{
+			if (list->buf_node[i] == '\n')
+			{
+				str[j++] = '\n';
+				str[j] = '\0';
+				return ;
+			}
+			str[j++] = list->buf_node[i++];
+		}
+		list = list->next;
+	}
+	str[j] = '\0';
+}
+
+g_list	*get_lstnode(g_list *list)
+{
+	if (!list)
+		return (NULL);
+	while (list->next)
+		list = list->next;
+	return (list);
+}
+
+int	lenght(g_list *list)
+{
+	int	i;
+	int	j;
+
+	if (list)
 		return (0);
-	len_s1 = ft_strlen(s1);
-	len_s2 = ft_strlen(s2);
-	str = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
-	if (!str)
-		return (0);
-	i = -1;
-	while (s1[++i])
-		str[i] = s1[i];
-	i = 0;
-	while (s2[i])
-		str[len_s1++] = s2[i++];
-	str[len_s1] = '\0';
-	return (str);
+	j = 0;
+	while (list)
+	{
+		i = 0;
+		while (list->buf_node[i])
+		{
+			if (list->buf_node[i] == '\n')
+			{
+				j++;
+				return (i);
+			}
+			j++;
+			i++;
+		}
+		list = list->next;
+	}
+	return (j);
+}
+
+void	clear(g_list **list, g_list *c_node, char *buf)
+{
+	g_list	*node;
+
+	while (*list)
+	{
+		node = (*list)->next;
+		free(*list->buf_node);
+		free(*list);
+		*list = node;
+	}
+	*list = NULL;
+	if (c_node->buf_node[0])
+		*list = c_node;
+	else
+	{
+		free(buf);
+		free(c_node);
+	}
 }
