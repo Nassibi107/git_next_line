@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/21 09:23:36 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/22 10:09:30 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <stdlib.h>
 
-int	get_line(g_list *list)
+int	get_line(t_list *list)
 {
 	int	ok;
 
@@ -34,7 +34,7 @@ int	get_line(g_list *list)
 	return (0);
 }
 
-void	join(g_list *list, char *str)
+void	join(t_list *list, char *str)
 {
 	int	i;
 	int	j;
@@ -60,7 +60,7 @@ void	join(g_list *list, char *str)
 	str[j] = '\0';
 }
 
-g_list	*get_lstnode(g_list *list)
+t_list	*get_lstnode(t_list *list)
 {
 	if (!list)
 		return (NULL);
@@ -69,7 +69,7 @@ g_list	*get_lstnode(g_list *list)
 	return (list);
 }
 
-int	lenght(g_list *list)
+int	lenght(t_list *list)
 {
 	int	i;
 	int	j;
@@ -95,9 +95,9 @@ int	lenght(g_list *list)
 	return (j);
 }
 
-void	clear(g_list **list, g_list *c_node, char *buf)
+void	clear(t_list **list, t_list *c_node, char *buf)
 {
-	g_list	*node;
+	t_list	*node;
 
 	while (*list)
 	{

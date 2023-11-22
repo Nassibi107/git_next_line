@@ -6,14 +6,14 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/15 17:58:53 by Oceano            #+#    #+#             */
-/*   Updated: 2023/11/20 12:50:39 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/22 09:54:40 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdlib.h>
 
-int	found_newline(t_list *list)
+int	found_newline(t_list **list)
 {
 	int	i;
 
