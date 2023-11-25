@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 13:08:29 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 14:52:50 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	lstadd(t_list **list, char *buf)
 
 	last_node = lstlast(*list);
 	new_node = malloc(sizeof(t_list));
-	if (NULL == new_node)
+	if (!new_node)
 		return ;
-	if (NULL == last_node)
+	if (!last_node)
 		*list = new_node;
 	else
 		last_node->next = new_node;
@@ -32,17 +32,19 @@ void	lstadd(t_list **list, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list = NULL;
-	char			*next_line;
+	static t_list	*list = 0x0;
+	char			*arr;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &next_line, 0) < 0)
+	if (read(fd, &arr, 0) < 0)
+		return (NULL);
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	creater(&list, fd, foud_newline);
-	if (list == NULL)
+	if (!list)
 		return (NULL);
-	next_line = get_line(list, lenght);
+	arr = get_line(list, lenght);
 	flash(&list, lstlast);
-	return (next_line);
+	return (arr);
 }
 
 void	flash(t_list **list, t_list *(*f)(t_list *))
@@ -68,7 +70,7 @@ void	flash(t_list **list, t_list *(*f)(t_list *))
 		traker[t++] = f(*list)->arr[++i];
 	traker[t] = 0;
 	new_node->arr = traker;
-	new_node->next = NULL;
+	new_node->next = 0x0;
 	cleanlst(list, new_node, traker, free);
 }
 
@@ -100,7 +102,7 @@ char	*get_line(t_list *list, int (*f)(t_list *))
 	char	*next_str;
 
 	if (!list)
-		return (NULL);
+		return (0x0);
 	next_str = malloc(f(list) + 1);
 	if (!next_str)
 		return (0x0);
