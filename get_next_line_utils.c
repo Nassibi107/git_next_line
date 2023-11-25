@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 13:03:34 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 13:08:14 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ t_list	*lstlast(t_list *list)
 /*
  * Copy (string\n]
 */
-void	copy_str(t_list *list, char *str)
+void	join(t_list *list, char *str)
 {
 	int	i;
-	int	k;
+	int	j;
 
-	if (NULL == list)
+	if (!list)
 		return ;
-	k = 0;
+	j = 0;
 	while (list)
 	{
 		i = 0;
@@ -65,15 +65,14 @@ void	copy_str(t_list *list, char *str)
 		{
 			if (list->arr[i] == '\n')
 			{
-				str[k++] = '\n';
-				str[k] = '\0';
-				return ;
+				str[j++] = '\n';
+				break ;
 			}
-			str[k++] = list->arr[i++];
+			str[j++] = list->arr[i++];
 		}
 		list = list->next;
 	}
-	str[k] = '\0';
+	str[j] = '\0';
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 13:02:33 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 13:08:29 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,6 @@ char	*get_line(t_list *list, int (*f)(t_list *))
 	next_str = malloc(f(list) + 1);
 	if (!next_str)
 		return (0x0);
-	copy_str(list, next_str);
+	join(list, next_str);
 	return (next_str);
 }
