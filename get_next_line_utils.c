@@ -6,7 +6,7 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 11:22:09 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 13:03:34 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 int	foud_newline(t_list *list)
 {
 	int	i;
-	int valid = 1;
+	int	valid;
 
+	valid = 1;
 	if (!list)
 		return (valid);
 	while (list)
@@ -35,13 +36,15 @@ int	foud_newline(t_list *list)
 	return (valid);
 }
 
-t_list	*find_last_node(t_list *list)
+t_list	*lstlast(t_list *list)
 {
-	if (NULL == list)
-		return (NULL);
-	while (list->next)
-		list = list->next;
-	return (list);
+	if (list)
+	{
+		while (list->next)
+			list = list->next;
+		return (list);
+	}
+	return (NULL);
 }
 
 /*
@@ -77,7 +80,7 @@ void	copy_str(t_list *list, char *str)
  * find the len to new line in
  * my linked list
 */
-int	len_to_newline(t_list *list)
+int	lenght(t_list *list)
 {
 	int	i;
 	int	len;
@@ -107,7 +110,7 @@ int	len_to_newline(t_list *list)
  * dealloc all from head
  * set heat->NULL
 */
-void	dealloc(t_list **list, t_list *clean_node, char *buf)
+void	cleanlst(t_list **list, t_list *newlst, char *buf, void (*d)(void *))
 {
 	t_list	*tmp;
 
@@ -116,16 +119,16 @@ void	dealloc(t_list **list, t_list *clean_node, char *buf)
 	while (*list)
 	{
 		tmp = (*list)->next;
-		free((*list)->arr);
-		free(*list);
+		d((*list)->arr);
+		d(*list);
 		*list = tmp;
 	}
 	*list = NULL;
-	if (clean_node->arr[0])
-		*list = clean_node;
+	if (newlst->arr[0])
+		*list = newlst;
 	else
 	{
-		free(buf);
-		free(clean_node);
+		d(buf);
+		d(newlst);
 	}
 }
