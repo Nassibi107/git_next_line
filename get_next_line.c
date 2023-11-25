@@ -6,72 +6,46 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/22 10:15:37 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 11:22:18 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	ft_fash(t_list **list)
+char	*get_line(t_list *list)
 {
-	t_list	*born_tobe_node;
-	char	*buffer;
-	int		o;
-	int		t;
+	int		str_len;
+	char	*next_str;
 
-	buffer = malloc(BUFFER_SIZE + 1);
-	born_tobe_node = malloc(sizeof(t_list));
-	if (!buffer || !born_tobe_node)
-		return ;
-	o = 0;
-	t = 0;
-	while (get_lstnode(*list)->buf_node[o]
-		&& get_lstnode(*list)->buf_node[o] != '\n')
-		o++;
-	while (get_lstnode(*list)->buf_node[o]
-		&& get_lstnode(*list)->buf_node[++o])
-		buffer[t++] = get_lstnode(*list)->buf_node[o];
-	buffer[t] = '\0';
-	born_tobe_node->next = NULL;
-	born_tobe_node->buf_node = buffer;
+	if (NULL == list)
+		return (NULL);
+	str_len = len_to_newline(list);
+	next_str = malloc(str_len + 1);
+	if (NULL == next_str)
+		return (NULL);
+	copy_str(list, next_str);
+	return (next_str);
 }
 
-void	ft_lstadd(t_list **list, char *bufer)
+/*
+ * append one node
+ * to the end of list
+*/
+void	append(t_list **list, char *buf)
 {
-	t_list	*n_node;
-	t_list	*l_node;
+	t_list	*new_node;
+	t_list	*last_node;
 
-	l_node = get_lstnode(*list);
-	if (!l_node)
+	last_node = find_last_node(*list);
+	new_node = malloc(sizeof(t_list));
+	if (NULL == new_node)
 		return ;
-	n_node = malloc(sizeof(t_list));
-	if (!n_node)
-		return ;
+	if (NULL == last_node)
+		*list = new_node;
 	else
-		l_node->next = n_node;
-	n_node->buf_node = bufer;
-	n_node->next = NULL;
-}
-
-void	creater(t_list **list, int fd)
-{
-	int		traker;
-	char	*bufer;
-
-	while (!get_line(*list))
-	{
-		bufer = malloc(BUFFER_SIZE + 1);
-		if (!bufer)
-			return ;
-		traker = read(fd, bufer, BUFFER_SIZE);
-		if (!traker)
-		{
-			free(bufer);
-			return ;
-		}
-		bufer[traker] = '\0';
-		ft_lstadd(list, bufer);
-	}
+		last_node->next = new_node;
+	new_node->arr = buf;
+	new_node->next = NULL;
 }
 
 char	*get_next_line(int fd)
@@ -85,6 +59,56 @@ char	*get_next_line(int fd)
 	if (list == NULL)
 		return (NULL);
 	next_line = get_line(list);
-	ft_fash(&list);
+	flash(&list);
 	return (next_line);
+}
+
+void	flash(t_list **list)
+{
+	int		i;
+	int		t;
+	char	*traker;
+	t_list	*new_node;
+
+	traker = malloc(BUFFER_SIZE + 1);
+	new_node = malloc(sizeof(t_list));
+	if (! traker ||!new_node)
+		return ;
+	i = 0;
+	t = 0;
+	while (find_last_node(*list)->arr[i])
+	{
+		if (find_last_node(*list)->arr[i] == '\n')
+			break ;
+		i++;
+	}
+	while (find_last_node(*list)->arr[i])
+		traker[t++] = find_last_node(*list)->arr[++i];
+	traker[t] = 0;
+	new_node->arr = traker;
+	new_node->next = NULL;
+	dealloc(list, new_node, traker);
+}
+
+void	creater(t_list **list, int fd)
+{
+	int		read_pos;
+	char	*buf;
+	int		size_b;
+
+	size_b = (BUFFER_SIZE + 1);
+	while (foud_newline(*list) == 1)
+	{
+		buf = malloc(size_b);
+		if (!buf)
+			return ;
+		read_pos = read(fd, buf, BUFFER_SIZE);
+		if (!read_pos)
+		{
+			free(buf);
+			return ;
+		}
+		buf[read_pos] = ((read_pos / read_pos) - 1);
+		append(list, buf);
+	}
 }

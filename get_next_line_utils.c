@@ -6,112 +6,126 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/22 10:09:30 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/25 11:22:09 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-#include <stdlib.h>
-
-int	get_line(t_list *list)
-{
-	int	ok;
-
-	if (!list)
-		return (0);
-	while (list)
-	{
-		ok = 0;
-		while (list->buf_node[ok] && ok < BUFFER_SIZE)
-		{
-			if (list->buf_node[ok] == '\n')
-				return (1);
-			ok++;
-		}
-		list = list->next;
-	}
-	return (0);
-}
-
-void	join(t_list *list, char *str)
+int	foud_newline(t_list *list)
 {
 	int	i;
-	int	j;
+	int valid = 1;
 
 	if (!list)
-		return ;
-	j = 0;
+		return (valid);
 	while (list)
 	{
 		i = 0;
-		while (list->buf_node[i] != '\0')
+		while (list->arr[i] && i < BUFFER_SIZE)
 		{
-			if (list->buf_node[i] == '\n')
+			if (list->arr[i] == '\n')
 			{
-				str[j++] = '\n';
-				str[j] = '\0';
-				return ;
+				return (-valid);
 			}
-			str[j++] = list->buf_node[i++];
+			i++;
 		}
 		list = list->next;
 	}
-	str[j] = '\0';
+	return (valid);
 }
 
-t_list	*get_lstnode(t_list *list)
+t_list	*find_last_node(t_list *list)
 {
-	if (!list)
+	if (NULL == list)
 		return (NULL);
 	while (list->next)
 		list = list->next;
 	return (list);
 }
 
-int	lenght(t_list *list)
+/*
+ * Copy (string\n]
+*/
+void	copy_str(t_list *list, char *str)
 {
 	int	i;
-	int	j;
+	int	k;
 
-	if (list)
-		return (0);
-	j = 0;
+	if (NULL == list)
+		return ;
+	k = 0;
 	while (list)
 	{
 		i = 0;
-		while (list->buf_node[i])
+		while (list->arr[i])
 		{
-			if (list->buf_node[i] == '\n')
+			if (list->arr[i] == '\n')
 			{
-				j++;
-				return (i);
+				str[k++] = '\n';
+				str[k] = '\0';
+				return ;
 			}
-			j++;
-			i++;
+			str[k++] = list->arr[i++];
 		}
 		list = list->next;
 	}
-	return (j);
+	str[k] = '\0';
 }
 
-void	clear(t_list **list, t_list *c_node, char *buf)
+/*
+ * find the len to new line in
+ * my linked list
+*/
+int	len_to_newline(t_list *list)
 {
-	t_list	*node;
+	int	i;
+	int	len;
 
+	if (NULL == list)
+		return (0);
+	len = 0;
+	while (list)
+	{
+		i = 0;
+		while (list->arr[i])
+		{
+			if (list->arr[i] == '\n')
+			{
+				++len;
+				return (len);
+			}
+			++i;
+			++len;
+		}
+		list = list->next;
+	}
+	return (len);
+}
+
+/*
+ * dealloc all from head
+ * set heat->NULL
+*/
+void	dealloc(t_list **list, t_list *clean_node, char *buf)
+{
+	t_list	*tmp;
+
+	if (NULL == *list)
+		return ;
 	while (*list)
 	{
-		node = (*list)->next;
-		free(*list->buf_node);
+		tmp = (*list)->next;
+		free((*list)->arr);
 		free(*list);
-		*list = node;
+		*list = tmp;
 	}
 	*list = NULL;
-	if (c_node->buf_node[0])
-		*list = c_node;
+	if (clean_node->arr[0])
+		*list = clean_node;
 	else
 	{
 		free(buf);
-		free(c_node);
+		free(clean_node);
 	}
 }
