@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 16:15:31 by ynassibi         ###   ########.fr       */
+/*   Created: 2023/11/25 16:08:49 by ynassibi          #+#    #+#             */
+/*   Updated: 2023/11/25 16:14:56 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 #include <stdlib.h>
+#include <sys/syslimits.h>
 
 void	lstadd(t_list **list, char *buf)
 {
@@ -32,19 +33,18 @@ void	lstadd(t_list **list, char *buf)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list = 0x0;
-	char			*arr;
+	static t_list	*list[4096];
+	char			*ARR;
 
-	if (read(fd, &arr, 0) < 0)
+	if (fd < 0 || fd > OPEN_MAX
+		|| BUFFER_SIZE <= 0 || read(fd, &ARR, 0) < 0)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	creater(list, fd, foud_newline);
+	if (list[fd] == NULL)
 		return (NULL);
-	creater(&list, fd, foud_newline);
-	if (!list)
-		return (NULL);
-	arr = get_line(list, lenght);
-	flash(&list, lstlast);
-	return (arr);
+	ARR = get_line(list[fd], lenght);
+	flash(&list[fd], lstlast);
+	return (ARR);
 }
 
 void	flash(t_list **list, t_list *(*f)(t_list *))
