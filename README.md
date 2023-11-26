@@ -31,4 +31,6 @@ such as text editors. (note pad etx...).
 >> the stack holds local (automatic) variables, temporary information , functions parameters , return address.
 >> Typically the stack grows downwaard, meaning that items deeper in the call chain are numerically lower addresses and,
 the heap. (FIFO)
->>  when the stack pointer met the heap pointer, free memory was exhausted (stack overflow error). 
+>>  when the stack pointer met the heap pointer, free memory was exhausted (stack overflow error).
+
+https://biriukov.dev/docs/fd-pipe-session-terminal/1-file-descriptor-and-open-file-description/
