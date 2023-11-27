@@ -6,116 +6,85 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 14:58:24 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:08:01 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	cleanlst(t_list **list, t_list *newlst, char *buf, void (*d)(void *))
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	t_list	*current;
+	char		*str;
+	size_t		i;
+	const char	*tracker;
 
-	while (*list)
+	if (!s)
+		return (NULL);
+	if (start > lenght(s))
 	{
-		current = (*list)->next;
-		d((*list)->arr);
-		d(*list);
-		*list = current;
+		str = ft_strdup("");
+		if (!str)
+			return (0);
+		return (str);
 	}
-	*list = NULL;
-	if (newlst->arr[0])
-		*list = newlst;
-	else
-	{
-		d(buf);
-		d(newlst);
-	}
-	return ;
-}
-
-int	foud_newline(t_list *list)
-{
-	int	i;
-	int	valid;
-
-	valid = 1;
-	if (!list)
-		return (valid);
-	while (list)
-	{
-		i = 0;
-		while (list->arr[i] && i < BUFFER_SIZE)
-		{
-			if (list->arr[i] == '\n')
-			{
-				return (-valid);
-			}
-			i++;
-		}
-		list = list->next;
-	}
-	return (valid);
-}
-
-t_list	*lstlast(t_list *list)
-{
-	if (list)
-	{
-		while (list->next)
-			list = list->next;
-		return (list);
-	}
-	return (NULL);
-}
-
-int	lenght(t_list *list)
-{
-	int	i;
-	int	lst_len;
-
-	if (!list)
+	if (len > (lenght(s) - start))
+		len = (lenght(s) - start);
+	tracker = &s[start];
+	str = (char *) malloc(sizeof(char) * (len + 1));
+	if (!str)
 		return (0);
-	lst_len = 0;
-	while (list != NULL)
-	{
-		i = 0;
-		while (list->arr[i])
-		{
-			if (list->arr[i] == '\n')
-			{
-				++lst_len;
-				break ;
-			}
-			++i;
-			++lst_len;
-		}
-		list = list->next;
-	}
-	return (lst_len);
+	i = -1;
+	while (tracker[++i] && i < len)
+		str[i] = tracker[i];
+	str[i] = '\0';
+	return (str);
 }
 
-void	join(t_list *list, char *arr)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int	i;
-	int	j;
+	char	*str;
+	size_t	len_s1;
+	size_t	len_s2;
+	size_t	i;
 
-	if (!list)
-		return ;
-	j = 0;
-	while (list)
+	if (s1 && !s2)
+		return ((char *)s1);
+	else if (!s1 && s2)
+		return ((char *)s2);
+	else if (!s1 && !s2)
+		return (0);
+	len_s1 = lenght(s1);
+	len_s2 = lenght(s2);
+	str = (char *)malloc(sizeof(char) * (len_s1 + len_s2 + 1));
+	if (!str)
+		return (0);
+	i = -1;
+	while (s1[++i])
+		str[i] = s1[i];
+	i = 0;
+	while (s2[i])
+		str[len_s1++] = s2[i++];
+	free((char *)s1);
+	str[len_s1] = '\0';
+	return (s1 = 0x0, str);
+}
+
+char	*ft_strdup(const char *s1)
+{
+	char	*copy;
+	size_t	s1_len;
+	int		i;
+
+	i = 0;
+	s1_len = lenght(s1);
+	copy = malloc(sizeof(char) * (s1_len + 1));
+	if (!copy)
+		return (NULL);
+	while (s1[i])
 	{
-		i = 0;
-		while (list->arr[i])
-		{
-			if (list->arr[i] == '\n')
-			{
-				arr[j++] = '\n';
-				break ;
-			}
-			arr[j++] = list->arr[i++];
-		}
-		list = list->next;
+		copy[i] = s1[i];
+		i++;
 	}
-	arr[j] = '\0';
+	copy[i] = '\0';
+	return (copy);
 }

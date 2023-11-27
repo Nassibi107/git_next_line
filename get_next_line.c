@@ -6,106 +6,78 @@
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 16:15:31 by ynassibi         ###   ########.fr       */
+/*   Updated: 2023/11/27 17:43:34 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
 
-void	lstadd(t_list **list, char *buf)
+size_t	lenght(const char *s)
 {
-	t_list	*new_node;
-	t_list	*last_node;
+	size_t	i;
+	size_t	c;
 
-	last_node = lstlast(*list);
-	new_node = malloc(sizeof(t_list));
-	if (!new_node)
-		return ;
-	if (!last_node)
-		*list = new_node;
-	else
-		last_node->next = new_node;
-	new_node->arr = buf;
-	new_node->next = 0x0;
+	c = -1;
+	i = 0;
+	while (s[i++])
+		c++;
+	return (++c);
 }
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list = 0x0;
-	char			*arr;
+	static char	*arr;
+	char		buffer[BUFFER_SIZE + 1];
+	char		*star;
+	int			i;
 
-	if (read(fd, &arr, 0) < 0)
-		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	creater(&list, fd, foud_newline);
-	if (!list)
-		return (NULL);
-	arr = get_line(list, lenght);
-	flash(&list, lstlast);
-	return (arr);
+	if (!arr)
+		arr = ft_strdup("");
+	i = read(fd, buffer, BUFFER_SIZE);
+	while (i >= 0)
+	{
+		buffer[i] = 0;
+		arr = ft_strjoin(arr, buffer);
+		if (is_newline(arr) != -1)
+			return (helper(&star, &arr, is_newline));
+		if (!i && !arr[0])
+			break ;
+		if (!i)
+			return (get_cash(&arr, 0));
+		i = read(fd, buffer, BUFFER_SIZE);
+	}
+	free(arr);
+	arr = 0x0;
+	return (0x0);
 }
 
-void	flash(t_list **list, t_list *(*f)(t_list *))
+char	*helper(char **current, char **arr, int (*f)(char *))
 {
-	int		i;
-	int		t;
-	char	*traker;
-	t_list	*new_node;
+	*current = ft_substr(*arr, 0, f(*arr) + 1);
+	*arr = get_cash(arr, f(*arr) + 1);
+	return (*current);
+}
 
-	new_node = malloc(sizeof(t_list));
-	traker = malloc(BUFFER_SIZE + 1);
-	if (! traker ||!new_node)
-		return ;
+char	*get_cash(char **str, int len)
+{
+	char	*cash;
+
+	cash = ft_substr(*str, len, lenght(*str + len));
+	return (free(*str),*str = 0x0, cash);
+}
+
+int	is_newline(char *str)
+{
+	int	i;
+	int	valid;
+
+	valid = 1;
 	i = 0;
-	t = 0;
-	while (f(*list)->arr[i])
+	while (str[i])
 	{
-		if (f(*list)->arr[i] == '\n')
-			break ;
+		if (str[i] == '\n')
+			return (-valid);
 		i++;
 	}
-	while (f(*list)->arr[i])
-		traker[t++] = f(*list)->arr[++i];
-	traker[t] = 0;
-	new_node->arr = traker;
-	new_node->next = 0x0;
-	cleanlst(list, new_node, traker, free);
-}
-
-void	creater(t_list **list, int fd, int (*f)(t_list *))
-{
-	int		read_pos;
-	char	*buf;
-	int		size_b;
-
-	size_b = (BUFFER_SIZE + 1);
-	while (f(*list) == 1)
-	{
-		buf = malloc(size_b);
-		if (!buf)
-			return ;
-		read_pos = read(fd, buf, BUFFER_SIZE);
-		if (!read_pos)
-		{
-			free(buf);
-			return ;
-		}
-		buf[read_pos] = ((read_pos / read_pos) - 1);
-		lstadd(list, buf);
-	}
-}
-
-char	*get_line(t_list *list, int (*f)(t_list *))
-{
-	char	*next_str;
-
-	if (!list)
-		return (0x0);
-	next_str = malloc(f(list) + 1);
-	if (!next_str)
-		return (0x0);
-	join(list, next_str);
-	return (next_str);
+	return (valid);
 }
