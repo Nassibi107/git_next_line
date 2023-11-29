@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 11:07:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/28 09:58:51 by ynassibi         ###   ########.fr       */
+/*   Created: 2023/11/28 09:40:32 by ynassibi          #+#    #+#             */
+/*   Updated: 2023/11/28 10:28:23 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdlib.h>
+#include "get_next_line_bonus.h"
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list = 0x0;
+	static t_list	*list[OPEN_MAX];
 	char			*arr;
 
 	if (read(fd, &arr, 0) < 0)
 		return (NULL);
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= OPEN_MAX)
 		return (NULL);
-	creater(&list, fd, foud_newline);
-	if (!list)
+	creater(&list[fd], fd, foud_newline);
+	if (!list[fd])
 		return (NULL);
-	arr = get_line_c(list, lenght);
-	flash(&list, lstlast);
+	arr = get_line_c(list[fd], lenght);
+	flash(&list[fd], lstlast);
 	return (arr);
 }
 

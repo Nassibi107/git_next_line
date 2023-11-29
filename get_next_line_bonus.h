@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 09:43:33 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/28 09:38:15 by ynassibi         ###   ########.fr       */
+/*   Created: 2023/11/25 15:33:26 by ynassibi          #+#    #+#             */
+/*   Updated: 2023/11/28 10:27:40 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 10
 # endif
 
-# include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
+# include <fcntl.h>
+
+# include <sys/syslimits.h>
 
 typedef struct s_list
 {

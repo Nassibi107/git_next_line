@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynassibi <ynassibi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/17 09:42:58 by ynassibi          #+#    #+#             */
-/*   Updated: 2023/11/25 14:58:24 by ynassibi         ###   ########.fr       */
+/*   Created: 2023/11/28 09:41:21 by ynassibi          #+#    #+#             */
+/*   Updated: 2023/11/28 10:28:29 by ynassibi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 void	cleanlst(t_list **list, t_list *newlst, char *buf, void (*d)(void *))
 {
